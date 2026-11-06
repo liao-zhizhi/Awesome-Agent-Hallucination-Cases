@@ -5,7 +5,8 @@
 [![Verdict lattice](https://img.shields.io/badge/verdicts-PASS%20%7C%20FAIL%20%7C%20INVALID%20%7C%20NOT%20RUN-black)](https://github.com/liao-zhizhi/harness-audit-sidecar)
 [![Witness](https://img.shields.io/badge/evidence-physical%20witness-blueviolet)](#how-we-audit)
 [![Cases](https://img.shields.io/badge/cases-3-orange)](./cases)
-[![License](https://img.shields.io/badge/license-pending-lightgrey)](#license)
+[![License: MIT](https://img.shields.io/badge/code-MIT-blue)](./LICENSE)
+[![License: CC BY 4.0](https://img.shields.io/badge/prose-CC%20BY%204.0-lightgrey)](./LICENSE-CC-BY)
 
 > The agent said the task was done. The exit code agreed. Nothing had been written.
 
@@ -245,9 +246,20 @@ decoration.
 
 ## License
 
-Not yet declared. Until it is, the default is "all rights reserved", and that is an accident of
-incompleteness rather than a decision — a curated list nobody may quote is not curated. Planned:
-text under CC BY 4.0, code samples under MIT. Open an issue if you need clarity before then.
+Dual-licensed, because a README and a `curl` snippet are not the same kind of artefact:
+
+| Part | License | File |
+|:--|:--|:--|
+| prose — this README, every case, the template | **CC BY 4.0** | [`LICENSE-CC-BY`](./LICENSE-CC-BY) |
+| code samples — the `curl` and `jsonc` blocks | **MIT** | [`LICENSE`](./LICENSE) |
+
+Cite a case freely; attribution is the only condition. That is deliberate. The cases describe
+failures, and some of them will eventually describe failures in systems whose owners would prefer
+the description not exist — "all rights reserved" would hand those owners a cheap argument that
+quoting a case is infringement. CC BY removes the argument.
+
+What the license does **not** cover: any third party's logs, traces, trademarks or data quoted
+inside a submitted case. That stays with the submitter, who must have the right to publish it.
 
 ---
 

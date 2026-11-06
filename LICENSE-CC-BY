@@ -1,0 +1,48 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+Copyright (c) 2026 Zhizhi Liao
+
+Applies to: the prose in this repository — README.md, every file under cases/,
+templates/submission-template.md, and the commit messages. It does NOT apply to
+source code, which is licensed under the MIT License (see LICENSE).
+
+You are free to:
+
+  Share — copy and redistribute the material in any medium or format, for any
+  purpose, even commercially.
+
+  Adapt — remix, transform, and build upon the material, for any purpose, even
+  commercially.
+
+Under the following terms:
+
+  Attribution — You must give appropriate credit, provide a link to this license,
+  and indicate if changes were made. You may do so in any reasonable manner, but
+  not in any way that suggests the licensor endorses you or your use.
+
+  No additional restrictions — You may not apply legal terms or technological
+  measures that legally restrict others from doing anything this license
+  permits.
+
+No warranties are given. The license may not give you all of the permissions
+necessary for your intended use. For example, other rights such as publicity,
+privacy, or moral rights may limit how you use the material.
+
+Full text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+---
+
+A note on why the prose is open, given what this repository is.
+
+The cases here describe failures. Some of them, eventually, will describe
+failures in systems made by people who would prefer the description not exist.
+If the text were "all rights reserved", those people would have a legal argument
+that quoting a case to rebut them is infringement — and the cheap way to win
+that argument is to make the list too expensive to cite. CC BY removes the
+argument. Attribution is the only thing asked in return, and the case files are
+written to be citable: each one carries its own verdict, provenance and witness.
+
+What CC BY does NOT grant: it does not license any third party's system, log,
+trademark, or data that a submission happens to quote. Contributors are
+responsible for having the right to publish their trace (see the checklist in
+templates/submission-template.md).
