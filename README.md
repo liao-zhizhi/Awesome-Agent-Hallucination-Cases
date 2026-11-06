@@ -87,19 +87,20 @@ the most common failure in production guardrails.
 
 ## ⚡ Live interactive demo
 
-**→ <https://chronicle-consecutive-alone-configurations.trycloudflare.com>**
+**→ <https://queen-allan-contract-javascript.trycloudflare.com>**
 
-A running CEL (Causal Execution Layer) console. Open it, press the simulate button, and watch a
-false completion become a red `FAIL`, a trust deduction, and a line in a SHA-256 hash chain.
+A running CEL (Causal Execution Layer) console, `core_version 1.0.10`. Open it, press the simulate
+button, and watch a false completion become a red `FAIL`, a trust deduction, and a line in a SHA-256
+hash chain.
 
-> **The write key is not published here.**
+> **Write access requires a demo key. Please open an issue with your use case to request one.**
 >
 > Reading is anonymous — `/api/v1/stats`, `/api/v1/ledger`, `/api/v1/ledger/verify` need no
-> credential. Writing does, because `POST /api/v1/verify` charges trust against an agent id, and a
-> public write key would let any crawler that found this page rewrite the demo's history.
+> credential, so you can inspect the whole ledger without asking anyone. Writing does, because
+> `POST /api/v1/verify` charges trust against an agent id, and a public write key would let any
+> crawler that found this page rewrite the demo's history.
 >
-> To book a case by hand, open an issue titled **`demo write key`** and it will be sent to you. Two
-> limitations, stated now so nobody is surprised later:
+> Two limitations, stated now so nobody is surprised later:
 >
 > - The instance holds **one shared key**, not per-contributor credentials. Revocation is
 >   all-or-nothing: when a key leaks, everyone's key changes.
@@ -120,10 +121,30 @@ docker compose up --build     # http://localhost:8000
 pip install -r requirements.txt && python api_server.py
 ```
 
+### Known limits
+
+**The key previously committed has been rotated. The old key is dead.**
+
+Verified against the live instance rather than asserted: a `POST /api/v1/verify` carrying the old
+key returns `403`, and the ledger's `total_entries` is unchanged by the probe. The old
+`chronicle-…` tunnel returns `530`, because a restart issued a new subdomain — which is also why the
+link above will break again the next time the tunnel restarts.
+
+Three more, since this list is supposed to be about the gap between a claim and the world:
+
+| Limit | Consequence |
+|:--|:--|
+| the ledger lives in process memory | a restart erases the history; the hash chain proves internal consistency, not durability |
+| one shared write key | revocation is all-or-nothing; there are no per-contributor credentials |
+| `trycloudflare.com` subdomain | the URL is not stable, and this README is the only place it is written down |
+
+None of these are caveats about the *method*. They are caveats about the *demo*, and they are listed
+here because a project that asks you to distrust green checkmarks does not get to hide its own.
+
 ### Adding your own case to the running console
 
 ```bash
-export CEL=https://chronicle-consecutive-alone-configurations.trycloudflare.com
+export CEL=https://queen-allan-contract-javascript.trycloudflare.com
 export CEL_API_KEY=...        # requested via an issue; never committed
 
 # read side, no credential needed
