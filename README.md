@@ -87,11 +87,11 @@ the most common failure in production guardrails.
 
 ## ⚡ Live interactive demo
 
-**→ <https://queen-allan-contract-javascript.trycloudflare.com>**
+**→ <https://demo.silicon-probe.com>**
 
-A running CEL (Causal Execution Layer) console, `core_version 1.0.10`. Open it, press the simulate
-button, and watch a false completion become a red `FAIL`, a trust deduction, and a line in a SHA-256
-hash chain.
+A running CEL (Causal Execution Layer) console, `core_version 1.0.10`, on a permanent domain. Open
+it, press the simulate button, and watch a false completion become a red `FAIL`, a trust deduction,
+and a line in a SHA-256 hash chain.
 
 > **Write access requires a demo key. Please open an issue with your use case to request one.**
 >
@@ -106,12 +106,13 @@ hash chain.
 >   all-or-nothing: when a key leaks, everyone's key changes.
 > - A key that has been shared with a hundred people is not a secret and should not be treated as
 >   one. It is a rate-limit-grade token that turns "anyone can write" into "you had to ask". The real
->   control is that the ledger is a demo, the tunnel is disposable, and nothing on that host is real
->   data.
+>   control is that the ledger is a demo, the instance is disposable, and nothing on that host is
+>   real data.
 >
-> **The tunnel is ephemeral either way.** `trycloudflare.com` URLs die when the tunnel process stops,
-> and a restart issues a *different* URL. If the link above is dead, that is what happened — not
-> censorship. Run it yourself instead:
+> **The link is stable; the data is not.** This domain is permanent, unlike the `trycloudflare.com`
+> subdomain it replaced. But the ledger lives in process memory, so a restart of the service erases
+> the entries while leaving the URL working. A `503` or `530` here would mean the host is down, not
+> that this README rotted. If you would rather not depend on anyone's host, run it yourself:
 
 ```bash
 git clone https://github.com/liao-zhizhi/agent-metabolism-os
@@ -125,10 +126,12 @@ pip install -r requirements.txt && python api_server.py
 
 **The key previously committed has been rotated. The old key is dead.**
 
-Verified against the live instance rather than asserted: a `POST /api/v1/verify` carrying the old
-key returns `403`, and the ledger's `total_entries` is unchanged by the probe. The old
-`chronicle-…` tunnel returns `530`, because a restart issued a new subdomain — which is also why the
-link above will break again the next time the tunnel restarts.
+Verified against the live instance rather than asserted: a `POST /api/v1/verify` carrying the
+previously committed key returns `403`, and `total_entries` is unchanged by the probe. That literal
+string is deliberately not reproduced here, not even as an example — a dead credential quoted in a
+README is still a credential-shaped string in a search index, and the next reader cannot tell it is
+dead. The temporary `trycloudflare.com` URLs used during development have been retired in favour of
+the permanent domain above.
 
 Three more, since this list is supposed to be about the gap between a claim and the world:
 
@@ -136,7 +139,13 @@ Three more, since this list is supposed to be about the gap between a claim and 
 |:--|:--|
 | the ledger lives in process memory | a restart erases the history; the hash chain proves internal consistency, not durability |
 | one shared write key | revocation is all-or-nothing; there are no per-contributor credentials |
-| `trycloudflare.com` subdomain | the URL is not stable, and this README is the only place it is written down |
+| `http://` is not redirected to `https://` | the app answers on plaintext too, so a key sent over `http://` travels in the clear. **Use the `https://` URL above** |
+
+That last one is worth its own line, because it is the same class of failure this repository exists
+to document: the client believes it is protected by transport security, and nothing in the request
+would tell it otherwise. We could have omitted it. The instance is a demo, the key is a rate-limit
+token, and nobody would have noticed — which is precisely the reasoning that produces every case in
+this list. It is written down instead, and it is on the list to fix.
 
 None of these are caveats about the *method*. They are caveats about the *demo*, and they are listed
 here because a project that asks you to distrust green checkmarks does not get to hide its own.
@@ -144,7 +153,7 @@ here because a project that asks you to distrust green checkmarks does not get t
 ### Adding your own case to the running console
 
 ```bash
-export CEL=https://queen-allan-contract-javascript.trycloudflare.com
+export CEL=https://demo.silicon-probe.com
 export CEL_API_KEY=...        # requested via an issue; never committed
 
 # read side, no credential needed
