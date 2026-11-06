@@ -92,16 +92,25 @@ the most common failure in production guardrails.
 A running CEL (Causal Execution Layer) console. Open it, press the simulate button, and watch a
 false completion become a red `FAIL`, a trust deduction, and a line in a SHA-256 hash chain.
 
-*Demo write key (`X-API-Key`):* `my-secret-key-2026`
-
-> **This key is public on purpose, and that has consequences.** The instance is writable so you can
-> book a case by hand instead of just reading one. It also means anyone who finds this page can
-> charge trust against the demo agents, which is why the key and the tunnel are rotated together and
-> why nothing on that host is real data. Do not reuse this key anywhere. Do not treat the demo as a
-> production gate — it is a storefront.
+> **The write key is not published here.**
 >
-> **The tunnel is ephemeral.** `trycloudflare.com` URLs die when the tunnel process stops. If the
-> link is down, that is what happened, not censorship. Run it locally instead:
+> Reading is anonymous — `/api/v1/stats`, `/api/v1/ledger`, `/api/v1/ledger/verify` need no
+> credential. Writing does, because `POST /api/v1/verify` charges trust against an agent id, and a
+> public write key would let any crawler that found this page rewrite the demo's history.
+>
+> To book a case by hand, open an issue titled **`demo write key`** and it will be sent to you. Two
+> limitations, stated now so nobody is surprised later:
+>
+> - The instance holds **one shared key**, not per-contributor credentials. Revocation is
+>   all-or-nothing: when a key leaks, everyone's key changes.
+> - A key that has been shared with a hundred people is not a secret and should not be treated as
+>   one. It is a rate-limit-grade token that turns "anyone can write" into "you had to ask". The real
+>   control is that the ledger is a demo, the tunnel is disposable, and nothing on that host is real
+>   data.
+>
+> **The tunnel is ephemeral either way.** `trycloudflare.com` URLs die when the tunnel process stops,
+> and a restart issues a *different* URL. If the link above is dead, that is what happened — not
+> censorship. Run it yourself instead:
 
 ```bash
 git clone https://github.com/liao-zhizhi/agent-metabolism-os
@@ -114,9 +123,13 @@ pip install -r requirements.txt && python api_server.py
 ### Adding your own case to the running console
 
 ```bash
-export CEL_API_KEY=my-secret-key-2026
 export CEL=https://chronicle-consecutive-alone-configurations.trycloudflare.com
+export CEL_API_KEY=...        # requested via an issue; never committed
 
+# read side, no credential needed
+curl -sS "$CEL/api/v1/stats"
+
+# write side
 curl -sS -X POST "$CEL/api/v1/verify" \
   -H "X-API-Key: $CEL_API_KEY" \
   -H "Content-Type: application/json" \
@@ -131,7 +144,9 @@ curl -sS -X POST "$CEL/api/v1/verify" \
 `check: true` is the agent's claim. `witness: false` is what the outside observed. The gap between
 them is the case. The console will book a `FAIL`, deduct trust, and seal the entry into the chain.
 
-Read side is anonymous — `/api/v1/stats`, `/api/v1/ledger`, `/api/v1/ledger/verify` need no key.
+A useful side effect of running the read side first: `POST` without a key returns `403` with the
+server's own explanation of what the endpoint does. If you get `200` on an unauthenticated `POST`,
+the instance is misconfigured — `auth_enabled` in `/api/v1/stats` will say so.
 
 ---
 
